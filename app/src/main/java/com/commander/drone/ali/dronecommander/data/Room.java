@@ -1,21 +1,53 @@
 package com.commander.drone.ali.dronecommander.data;
 
+import java.util.Set;
+
 /**
  * Created by ali on 12/11/2016.
- * exploring rooms will happen using an iterative approach of DFS treating rooms like Nodes
- * http://www.java2blog.com/2015/12/depth-first-search-in-java.html
  */
 
 public class Room {
-    //Room States are either new (unexplored), explored (Meaning has connected rooms to this room that are new)or a deadend(Meaning all connected rooms to this room that have no more new rooms to explore)
-    enum State{
+    //Room States are either new (unexplored), explored (Meaning the connections were found and the writing was read in the room)
+    public enum State{
         NEW,
-        EXPLORED,
-        DEAD_END
+        FULLY_EXPLORED
     }
-    private int RoomID;//assuming all room IDs are unique , thats not too much to ask for, is it?
+    private Integer mRoomID;//assuming all room IDs are unique , thats not too much to ask for, is it?
+    //Used to show the state of the rooms in the UI
     private State mCurrentState;
-    public Room(){
-
+    private boolean mHasExploredConnections = false;
+    private boolean mHasCheckedWriting = false;
+    private static Set<Integer> mUsedIDsSet;
+    private Room(int roomID){
+        mRoomID = roomID;
+        mCurrentState = State.NEW;
     }
+    //MakeRoom class prevents rooms being make with the same ID
+    public static Room makeRoom(Integer roomID){
+        if(mUsedIDsSet.contains(roomID)){
+            return null;
+        }
+        return new Room(roomID);
+    }
+    public Integer getRoomID() {
+        return mRoomID;
+    }
+
+    public State getState(){
+        return mCurrentState;
+    }
+
+    public void checkedConnections() {
+        mHasExploredConnections = true;
+        if(mHasCheckedWriting && mHasExploredConnections){
+            mCurrentState = State.FULLY_EXPLORED;
+        }
+    }
+    public void readWriting() {
+        mHasCheckedWriting = true;
+        if(mHasCheckedWriting && mHasExploredConnections){
+            mCurrentState = State.FULLY_EXPLORED;
+        }
+    }
+
 }

@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity implements DroneCommanderLis
         mDroneCommandManager = DroneCommandManager.getInstance();
 
         mDroneCommandManager.setDroneCommanderListener(this);
-
+        mDroneCommandManager.startExploration();
 
 
     }
