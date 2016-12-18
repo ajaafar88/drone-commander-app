@@ -8,5 +8,6 @@ package com.commander.drone.ali.dronecommander;
 
 public interface DroneCommanderListener {
     void onMissionStarted();
-    void onMissionCompleted();
+    void onMissionUpdate();
+    void onMissionCompleted(String result);
 }

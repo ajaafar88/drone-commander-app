@@ -91,8 +91,8 @@ public class DroneCommandManager {
                     //If the retry queue is empty take a command from the command queue
                     //if the command queue is empty pop the room stack to get more commands into the command queue
                     //if Retry queue , command queue and room stack is empty the exploration is done
-                  //  new SendCommandsTask(mDroneQueue,mRoomStack).execute();
-                }
+                    new SendCommandsTask(mRequestQueue,mDroneQueue,mRoomStack).execute();
+            }
             };
             mRequestQueue.add(new DroneCommandRequest(Request.Method.GET,
                     Constants.BASE_URL + Constants.START_MISSION,

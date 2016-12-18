@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity implements DroneCommanderLis
         setContentView(R.layout.activity_main);
 
 
-        mDroneCommandManager = DroneCommandManager.getInstance();
+        mDroneCommandManager = DroneCommandManager.getInstance(this);
 
         mDroneCommandManager.setDroneCommanderListener(this);
         mDroneCommandManager.startExploration();
@@ -29,7 +29,13 @@ public class MainActivity extends AppCompatActivity implements DroneCommanderLis
     }
 
     @Override
-    public void onMissionCompleted() {
+    public void onMissionUpdate() {
 
     }
+
+    @Override
+    public void onMissionCompleted(String result) {
+
+    }
+
 }
