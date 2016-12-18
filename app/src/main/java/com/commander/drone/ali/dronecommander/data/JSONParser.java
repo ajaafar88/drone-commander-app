@@ -41,7 +41,6 @@ public class JSONParser {
 
     public static boolean parseCommandResponse(Drone returningDrone, String jsonString, Queue<Drone> droneQueue, Stack<Room> roomStack,
                                                Queue<Command> retryCommandQueue, SparseArray<String> reportStringSparseArray){
-        droneQueue.add(returningDrone);
         SparseArray<Command> returningDroneCommands = returningDrone.getCommands();
         try {
             JSONObject jsonObject = new JSONObject(jsonString);
@@ -96,6 +95,7 @@ public class JSONParser {
                     //Command reference should be lost here
                     returningDroneCommands.remove(command.getCommandID());
                 }
+                droneQueue.add(returningDrone);
 
             }
         } catch (JSONException e) {

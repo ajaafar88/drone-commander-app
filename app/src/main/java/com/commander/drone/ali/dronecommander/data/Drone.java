@@ -15,11 +15,12 @@ public class Drone {
         return pendingCommands;
     }
 
-    public void setCommands(SparseArray<Command> commands) {
+    public void addCommands(SparseArray<Command> commands) {
         this.pendingCommands = commands;
     }
 
     public Drone(int droneID){
+        pendingCommands = new SparseArray<Command>();
         mDroneID = droneID;
     }
 

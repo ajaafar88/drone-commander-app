@@ -35,6 +35,7 @@ public class DroneCommandRequest extends JsonRequest<String> {
     public DroneCommandRequest(int method, String url,
                                Response.Listener<String> responseListener, Response.ErrorListener errorListener) {
         this( method, url, null, responseListener, errorListener);
+        mResponseListener = responseListener;
     }
 
     @Override

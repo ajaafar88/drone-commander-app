@@ -7,8 +7,18 @@ package com.commander.drone.ali.dronecommander.data;
 public class Command {
     //Different types of commands
     public enum TYPE{
-        EXPLORE,
-        READ
+        EXPLORE("explore"),
+        READ("read");
+
+        private final String mStringValue;
+
+        TYPE(String stringValue) {
+            mStringValue = stringValue;
+        }
+
+        public String getStringValue() {
+            return mStringValue;
+        }
     }
     public enum State{
         NEW,
@@ -39,6 +49,10 @@ public class Command {
 
     public TYPE getCommandType(){
         return mType;
+    }
+
+    public String getCommandTypeString(){
+        return mType.getStringValue();
     }
 
     public State getCurrentState(){
