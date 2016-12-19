@@ -1,5 +1,8 @@
 package com.commander.drone.ali.dronecommander.data;
 
+import android.util.Log;
+
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -12,24 +15,26 @@ public class Room {
         NEW,
         FULLY_EXPLORED
     }
-    private Integer mRoomID;//assuming all room IDs are unique , thats not too much to ask for, is it?
+    private String mRoomID;//assuming all room IDs are unique , thats not too much to ask for, is it?
     //Used to show the state of the rooms in the UI
     private State mCurrentState;
     private boolean mHasExploredConnections = false;
     private boolean mHasCheckedWriting = false;
-    private static Set<Integer> mUsedIDsSet;
-    private Room(int roomID){
+    private static Set<String> mUsedIDsSet = new HashSet<String>();
+    private Room(String roomID){
         mRoomID = roomID;
         mCurrentState = State.NEW;
     }
     //MakeRoom class prevents rooms being make with the same ID
-    public static Room makeRoom(Integer roomID){
+    //This also marks the Room IDs as being visited
+    public static Room makeRoom(String roomID){
         if(mUsedIDsSet.contains(roomID)){
             return null;
         }
+        mUsedIDsSet.add(roomID);
         return new Room(roomID);
     }
-    public Integer getRoomID() {
+    public String getRoomID() {
         return mRoomID;
     }
 

@@ -7,7 +7,7 @@ import android.util.SparseArray;
  */
 
 public class Drone {
-    private Integer mDroneID;
+    private String mDroneID;
 
     private SparseArray<Command> pendingCommands;
 
@@ -19,12 +19,12 @@ public class Drone {
         this.pendingCommands = commands;
     }
 
-    public Drone(int droneID){
+    public Drone(String droneID){
         pendingCommands = new SparseArray<Command>();
         mDroneID = droneID;
     }
 
-    public Integer getDroneID() {
+    public String getDroneID() {
         return mDroneID;
     }
 

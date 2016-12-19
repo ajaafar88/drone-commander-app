@@ -7,7 +7,11 @@ package com.commander.drone.ali.dronecommander;
  */
 
 public interface DroneCommanderListener {
+    int CURRENT_REPORT_INDEX = 0;
+    int COMMAND_QUEUE_INDEX = 1;
+    int RETRY_QUEUE_INDEX = 2;
+    int DRONE_WAVE_INDEX = 3;
     void onMissionStarted();
-    void onMissionUpdate();
+    void onMissionUpdate(String currentReport, String currentCommandQueue, String currentRetryQueue, String waveDetails);
     void onMissionCompleted(String result);
 }

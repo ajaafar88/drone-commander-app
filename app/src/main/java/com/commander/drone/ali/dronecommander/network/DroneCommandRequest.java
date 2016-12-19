@@ -12,6 +12,7 @@ import com.commander.drone.ali.dronecommander.data.Constants;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -22,10 +23,7 @@ import java.util.Map;
 
 public class DroneCommandRequest extends JsonRequest<String> {
     private Response.Listener<String> mResponseListener;
-    private static Map<String, String> mHeader;
-    static{
-        mHeader.put(Constants.COMMANDER_EMAIL_HEADER_KEY,Constants.COMMANDER_EMAIL_HEADER_VALUE);
-    }
+
     public DroneCommandRequest(int method, String url, JSONObject jsonRequest,
                                Response.Listener<String> responseListener, Response.ErrorListener errorListener) {
         super(method, url,jsonRequest != null? jsonRequest.toString() : null , responseListener, errorListener);
@@ -57,6 +55,11 @@ public class DroneCommandRequest extends JsonRequest<String> {
 
     @Override
     public Map<String, String> getHeaders() throws AuthFailureError {
+        Map<String, String> mHeader = new HashMap<String, String>();
+
+        mHeader.put("Content-Type","application/json; charset=utf-8");
+        mHeader.put(Constants.COMMANDER_EMAIL_HEADER_KEY,Constants.COMMANDER_EMAIL_HEADER_VALUE);
+
         return mHeader;
     }
 

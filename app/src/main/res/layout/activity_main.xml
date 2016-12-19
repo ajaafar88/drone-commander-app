@@ -11,11 +11,9 @@
 
     <TextView
         android:paddingTop="@dimen/activity_vertical_margin"
-        android:text="Single-line text view that scrolls automatically if the text is too long to fit in the widget"
-        android:maxLines="1"
+        android:text="Mission Starting....."
+        android:maxLines="20"
         android:textColor="@color/white"
-        android:ellipsize="marquee"
-        android:marqueeRepeatLimit ="marquee_forever"
         android:focusable="true"
         android:id="@+id/current_report_textview"
         android:focusableInTouchMode="true"
@@ -24,7 +22,7 @@
         android:layout_height="wrap_content"/>
 
     <TextView
-        android:text="Single-line text view that scrolls automatically if the text is too long to fit in the widget"
+        android:text=""
         android:maxLines="1"
         android:textColor="@color/white"
         android:layout_below="@+id/current_report_textview"
@@ -38,7 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     <TextView
-        android:text="Single-line text view that scrolls automatically if the text is too long to fit in the widget"
+        android:text=""
         android:maxLines="1"
         android:textColor="@color/white"
         android:layout_below="@+id/current_command_queue_textview"
@@ -63,5 +61,6 @@
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:id="@+id/drone_details_listview"
         android:layout_below="@id/command_divider_view"></ListView>
 </RelativeLayout>

@@ -1,5 +1,6 @@
 package com.commander.drone.ali.dronecommander.data;
 
+import android.util.Log;
 import android.util.SparseArray;
 
 import org.json.JSONArray;
@@ -22,16 +23,16 @@ public class JSONParser {
 
     private JSONParser(){};
     //returns false if it fails to parse json
-    public static boolean parseStartResponse(String jsonString, Queue<Drone> droneQueue, Stack<Room> roomStack){
+    public static boolean parseStartResponse(String jsonString, LinkedList<Drone> droneQueue, Stack<Room> roomStack){
         try {
             JSONObject jsonObject = new JSONObject(jsonString);
             JSONArray jsonArray = jsonObject.getJSONArray("drones");
             //Populate drone queue with found drones
             for(int i=0; i < jsonArray.length() ; i++){
-                droneQueue.add(new Drone(jsonArray.getInt(i)));
+                droneQueue.add(new Drone(jsonArray.getString(i)));
             }
             //Populates Room Stack with found room
-            roomStack.add(Room.makeRoom(jsonObject.getInt("roomId")));
+            roomStack.add(Room.makeRoom(jsonObject.getString("roomId")));
         } catch (JSONException e) {
             e.printStackTrace();
             return false;
@@ -39,14 +40,14 @@ public class JSONParser {
         return true;
     }
 
-    public static boolean parseCommandResponse(Drone returningDrone, String jsonString, Queue<Drone> droneQueue, Stack<Room> roomStack,
-                                               Queue<Command> retryCommandQueue, SparseArray<String> reportStringSparseArray){
+    public static boolean parseCommandResponse(Drone returningDrone, String jsonString, LinkedList<Drone> droneQueue, Stack<Room> roomStack,
+                                               LinkedList<Command> retryCommandQueue, SparseArray<String> reportStringSparseArray){
         SparseArray<Command> returningDroneCommands = returningDrone.getCommands();
         try {
             JSONObject jsonObject = new JSONObject(jsonString);
             Iterator<String> commandIDStringIterator = jsonObject.keys();
             //if Drone has an error Then all the commands they were sent with have failed
-            if(jsonObject.get("error") != null){
+            if(jsonObject.opt("error") != null){
                 for(int i = 0 ; i<returningDroneCommands.size() ; i++){
                     int key = returningDroneCommands.keyAt(i);
                     Command returningDroneCommand = returningDroneCommands.get(key);
@@ -65,7 +66,7 @@ public class JSONParser {
                     Command command = returningDroneCommands.get(currentCommandIDIntegerValue);
                     //Command ID returned with an error so the command failed and the command will
                     //we be added to the retry queue and removed from the drones list of pending commands
-                    if (resultJsonObject.get("error") == null) {
+                    if (resultJsonObject.opt("error") != null) {
                         command.failed();
                         retryCommandQueue.add(command);
                     } else {
@@ -73,7 +74,7 @@ public class JSONParser {
                             JSONArray connectionsJSONArray = resultJsonObject.getJSONArray("connections");
                             //if Command was to explore the room will populate the room stack with its connections
                             for (int i = 0; i < connectionsJSONArray.length(); i++) {
-                                Room room = Room.makeRoom(connectionsJSONArray.getInt(i));//Will contain Null if the roomid was already used
+                                Room room = Room.makeRoom(connectionsJSONArray.getString(i));//Will contain Null if the roomid was already used
                                 if(room != null){
                                     roomStack.add(room);
                                 }
@@ -81,8 +82,8 @@ public class JSONParser {
                             command.getRoom().checkedConnections();
                         } else if (Command.TYPE.READ == command.getCommandType()) {
                             //if Command was writing  , the report array will be populated by the string if it is valid
-                            int position = resultJsonObject.getInt("order");
-                            if (position == -1) {
+                            int position = Integer.parseInt(resultJsonObject.getString("order"));
+                            if (position != -1) {
                                 String writing = resultJsonObject.getString("writing");
                                 if (writing != null) {
                                     reportStringSparseArray.append(position, writing);
